@@ -29,17 +29,19 @@ The `forum8_impaired_driving_scenarios.rd` file contains a total of 7 unique, ye
 ### Highway driving task
 In the highway drive, participants are instructed to drive at a constant speed of 100 km/h, braking & overtaking other vehicles if necessary. This task includes four over-taking events spaced evenly over the 12 km drive.
 
+<br><img width="2880" alt="Highway_Driving_Screenshot" src="https://github.com/blair-aitken/Forum8_Impaired_Driving/assets/131508862/ab17f415-d2ab-49b0-8b2e-44ab97e980ec"><br><br>
+
 ### Car-following task
 The car-following task commences with a vehicle appearing approximately 50 meters in front of the participants vehicle & participants are instructed to follow & maintain a safe but constant distance (headway) to it.
 
-<br><img width="500" alt="Car-following Task" src="https://github.com/blair-aitken/Forum8_Impaired_Driving/assets/131508862/6b61392f-ed8c-4cf8-bae4-d3daa5848bbb"><br><br>
+<br><img width="2880" alt="Car_Following_Screenshot" src="https://github.com/blair-aitken/Forum8_Impaired_Driving/assets/131508862/2097b757-2110-4585-a6ce-ba23ecef0179"><br><br>
 
 The lead vehicle accelerates or decelerates every 400 meters in a sinusoidal manner between 60 & 90 km/h, with single speed changes of no more than ± 10 km/h. Thus, participants must slow down in order to avoid collision, & to speed up in order to keep up with the leading car
 
 ### Dual task
 During this task, letters ranging from A to F appear inside a green hexagon are presented on screen directly in front of the participant. As each letter appears, participants respond by quickly press the corresponding button on their dashboard & promptly return both hands to the steering wheel.
 
-<br><img width="500" alt="Divided Attention Task" src="https://github.com/blair-aitken/Forum8_Impaired_Driving/assets/131508862/ae75cb19-188e-4945-a6d2-d525edb1fa13"><br><br>
+<br><img width="2880" alt="Dual_Task_Screenshot" src="https://github.com/blair-aitken/Forum8_Impaired_Driving/assets/131508862/6ad8de32-d64f-47a2-9284-e5ff6533c9bf"><br><br>
 
 A total of 50 trials are presented, with each letter appearing for X seconds every 10 seconds. Participants are also instructed to maintain a constant speed of 100 km/h in the left lane while driving. 
 
