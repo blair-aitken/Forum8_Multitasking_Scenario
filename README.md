@@ -79,7 +79,7 @@ Users can easily modify weather conditions, such as rain or fog, and select betw
 
 2. The `forum8_impaired_driving_analysis.R` script should be placed in the same folder as all CSV data files.
 
-3. The script reads all CSV files in the folder & groups by Study, participant number, visit number & drive number. 
+3. The script reads all CSV files in the folder & groups by participant id, visit, & drive number. 
 
 4. Summary & raw data will be saved into data folder. 
 
