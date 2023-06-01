@@ -24,7 +24,7 @@ Aitken, B. & Arkell, T. (2023). Validation of a Novel Driving Simulation Task: A
 * UC-win/Road Ver. 14 by Forum8 (https://www.forum8.co.jp)
 
 ## Driving simulations
-The `forum8_impaired_driving_scenarios.rd` file contains a total of 7 unique, yet comparable UC-win/Road Version 13 compatable driving simulations comprising of three 8-minute tasks:
+The UC-win/Road `forum8_impaired_driving_scenarios.rd` file contains three 8-minute driving tasks conducted on a bidirectional, four-lane highway with a lane width of 3.4 meters. The tasks are as follows:
 
 ### Highway driving task
 In the highway drive, participants are instructed to drive at a constant speed of 100 km/h, braking & overtaking other vehicles if necessary. This task includes four over-taking events spaced evenly over the 12 km drive.
@@ -55,11 +55,9 @@ Six primary driving endpoints are calculated using the `forum8_impaired_driving_
 *	**Mean Headway**: Mean distance, measured in meters, maintained between the participant’s vehicle and the lead vehicle during the car-following task.
 *	**Headway variability**: The standard deviation of headway, measured in meters, with an increase in headway indicating a decreased ability to maintain a consistent distance between the lead vehicle.
 
-Each of the simulations contain variations in lead vehicle speed (car-following task) & stimuli order (dual task). The appearance (i.e., make, model & colour) of other vehicles was also randomised for each drive to further increase the novelty.The drives are otherwise identical so that each version will produce comparable results. For example, the length of each drive, the environments encountered & key drive features are the same for each simulation. 
+Each version includes variations in lead vehicle speed for the car-following task and stimuli order for the dual task. Additionally, the appearance of other vehicles, including make, model, and color, is randomized across each version to enhance novelty. Despite these variations, the drives remain otherwise identical to ensure comparable results across versions.
 
-The daytime driving environment is realistically portrayed with road signs & other vehicles (cars, buses, trucks & motorcycles) which travelled in the opposing lane at a constant speed. The landscape contains trees, mountains & clouds in a foggy sky. In each task, participants drove along a straight, dual-carriage highway in the left (in accordance with Australian driving regulations).
-
-All 7 versions of the driving simulation are located in the `Forum8_Drives` folder.
+Users can easily modify weather conditions, such as rain or fog, and select between daytime and nighttime driving scenarios. By default, the tasks adhere to Australian driving regulations, with participants driving in the left lane. Customized versions tailored for the United States and European Union, inclusive of local road signage, are available upon request.
 
 ## How to run data analysis
 1. UC-win/Road output files should be named using the following format:
