@@ -14,6 +14,7 @@ Aitken, B. & Arkell, T. (2023). Validation of a Novel Driving Simulation Task: A
   - [Car-following task](#car-following-task)
   - [Dual task](dual-task)
   - [Outcomes](#outcomes)
+- [Setup](#setup)
 - [How to run data analysis](#how-to-run-data-analysis)
 - [Contact information](#contact-information)
 
@@ -58,6 +59,14 @@ Six primary driving endpoints are calculated using the `forum8_impaired_driving_
 Each version includes variations in lead vehicle speed for the car-following task and stimuli order for the dual task. Additionally, the appearance of other vehicles, including make, model, and color, is randomized across each version to enhance novelty. Despite these variations, the drives remain otherwise identical to ensure comparable results across versions.
 
 Users can easily modify weather conditions, such as rain or fog, and select between daytime and nighttime driving scenarios. By default, the tasks adhere to Australian driving regulations, with participants driving in the left lane. Customized versions tailored for the United States and European Union, inclusive of local road signage, are available upon request.
+
+## Setup
+
+1. Use `git clone` or download the project from this page.
+
+2. Once you have the project files on your local machine, locate the `forum8_impaired_driving_scenario.rd` file containg the UC/win-Road scenarios.
+
+3. Open the scenario selector within the file to choose the specific task or version you want to use. The scenario selector allows you to switch between different tasks or versions available within the single  file. 
 
 ## How to run data analysis
 1. UC-win/Road output files should be named using the following format:
