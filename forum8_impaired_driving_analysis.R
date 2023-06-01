@@ -80,8 +80,7 @@ rm(ddt, f, drivefiles)
 #------------------------------------------------------------
 driving_data$id <- as.numeric(sub("^.*[a-zA-Z]+([0-9]{3}).*", "\\1", driving_data$file)) 
 driving_data$visit <- as.factor(sub("^.*[a-zA-Z]+[0-9]{3}_V([0-9]+).*", "\\1", driving_data$file)) 
-driving_data$drive_number <- as.factor(sub("^.*[a-zA-Z]+[0-9]{3}_V[0-9]+_T([0-9]+).*", "\\1", driving_data$file)) 
-driving_data$study_code <- sub("^([a-zA-Z]+).*", "\\1", driving_data$file)
+driving_data$drive_number <- as.factor(sub("^.*[a-zA-Z]+[0-9]{3}_V[0-9]+_T([0-9]+).*", "\\1", driving_data$file))
 
 # Covert all headings to lower case
 #----------------------------------
