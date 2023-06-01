@@ -5,6 +5,8 @@ This Github repository was created in conjuction with the open-access publicatio
 
 Aitken, B. & Arkell, T. (2023). Validation of a Novel Driving Simulation Task: A Pilot Study. 
 
+If you use any part of this repository in your research, please cite our paper.
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -81,7 +83,7 @@ Users can easily modify weather conditions, such as rain or fog, and select betw
 
 3. The script reads all CSV files in the folder & groups by participant id, visit, & drive number. 
 
-4. Summary & raw data will be saved into data folder. 
+4. Summary & raw data will be saved into data folder.
 
 ## Contact information
 For questions or additional information about this repository, please contact baitken@swin.edu.au.
