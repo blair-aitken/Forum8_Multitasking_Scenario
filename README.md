@@ -3,7 +3,7 @@
 ## Overview
 This Github repository was created in conjuction with the open-access publication: 
 
-Aitken, B. & Arkell, T. (2023). Validation of a Novel Driving Simulation Task: A Pilot Study. 
+XXX
 
 If you use any part of this repository in your research, please cite this paper.
 
