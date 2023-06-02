@@ -46,7 +46,7 @@ During this task, letters ranging from A to F appear inside a green hexagon are 
 
 <br><img width="2880" alt="Dual_Task_Screenshot" src="https://github.com/blair-aitken/Forum8_Impaired_Driving/assets/131508862/6ad8de32-d64f-47a2-9284-e5ff6533c9bf"><br>
 
-A total of 50 trials are presented, with each letter appearing for X seconds every 10 seconds. Participants are also instructed to maintain a constant speed of 100 km/h in the left lane while driving. 
+A total of 50 trials are presented, with each letter appearing for one second every 10 seconds. Participants are also instructed to maintain a constant speed of 100 km/h in the left lane while driving. 
 
 ### Outcomes
 Six primary driving endpoints are calculated using the `forum8_impaired_driving_analysis.R` script to assess simulated driving performance. The definitions of these outcomes are as follows:
