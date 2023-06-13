@@ -91,7 +91,7 @@ The `forum8_impaired_driving_analysis.R` script is fully customizable and includ
 ### 1. Handling Different File Naming Conventions
 The script assumes a specific naming convention for CSV files (`STUDYCODE_000_00_T0.csv`). If your data files have a different naming convention, you'll need to modify the section that extracts information from file names. For example:
 
-```
+```R
 # Modify the regular expressions according to your file naming convention
 driving_data$id <- as.numeric(sub("^your_regular_expression_here", "\\1", driving_data$file))
 driving_data$visit <- as.factor(sub("^your_regular_expression_here", "\\1", driving_data$file))
@@ -101,7 +101,7 @@ driving_data$drive_number <- as.factor(sub("^your_regular_expression_here", "\\1
 ### 2. Adding New Data Filtering Criteria
 Depending on your analysis, you may need to apply different filtering criteria to the data. For example, you could add additional filters or modify existing ones in the sections where data is being cleaned and organized.
 
-```
+```R
 # Filtering based on a custom condition
 driving_data <- driving_data %>%
   filter(custom_column >= some_value)
@@ -110,7 +110,7 @@ driving_data <- driving_data %>%
 #### 3. Customising data export
 The script exports the data in CSV format. You could modify the export section to output the data in a different format or save it to a specific location.
 
-```
+```R
 # Exporting the data to an Excel file
 library(writexl)
 write_xlsx(driving_data_summary, "path_to_save_file/driving_data_summary.xlsx")
