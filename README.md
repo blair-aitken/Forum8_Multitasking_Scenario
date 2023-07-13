@@ -98,7 +98,7 @@ driving_data$visit <- as.factor(sub("^your_regular_expression_here", "\\1", driv
 driving_data$drive_number <- as.factor(sub("^your_regular_expression_here", "\\1", driving_data$file))
 ```
 
-### 2. Adding New Data Filtering Criteria
+#### 2. Adding New Data Filtering Criteria
 Depending on your analysis, you may need to apply different filtering criteria to the data. For example, you could add additional filters or modify existing ones in the sections where data is being cleaned and organized.
 
 ```R
