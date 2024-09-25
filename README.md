@@ -78,6 +78,8 @@ Users can easily modify weather conditions, such as rain or fog, and select betw
 
 4. Summary & raw data will be saved into data folder.
 
+![Forum9_Multitasking Scenario_Data Processing](https://github.com/user-attachments/assets/22828cee-31e0-420e-8fbd-3779dc762162)
+
 ## Modifying the data analysis script
 The `forum8_impaired_driving_analysis.R` script is fully customizable and includes detailed comments that explain what each line of code does. This allows you to easily adapt it to your own data analysis needs. Below are key sections you may want to customize:
 
