@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/a3011ec8-1eb4-4081-b43a-e18cc2ee837e)# Forum8 Multitasking Scenario
+# Forum8 Multitasking Scenario
 
 ## Table of Contents
 
