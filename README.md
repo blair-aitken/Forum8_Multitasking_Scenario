@@ -1,11 +1,4 @@
-# Forum8 Impaired Driving
-
-## Overview
-This Github repository was created in conjuction with the open-access publication: 
-
-XXX
-
-If you use any part of this repository in your research, please cite this paper.
+![image](https://github.com/user-attachments/assets/a3011ec8-1eb4-4081-b43a-e18cc2ee837e)# Forum8 Multitasking Scenario
 
 ## Table of Contents
 
@@ -31,23 +24,23 @@ If you use any part of this repository in your research, please cite this paper.
 The UC-win/Road `forum8_impaired_driving_scenarios.rd` file contains three 8-minute driving tasks conducted on a bidirectional, four-lane highway with a lane width of 3.4 meters. The tasks are as follows:
 
 ### Highway driving task
-In the highway drive, participants are instructed to drive at a constant speed of 100 km/h, braking & overtaking other vehicles if necessary. This task includes four over-taking events spaced evenly over the 12 km drive.
+Participants maintain a constant speed of 100 km/h in the left lane and performed four overtaking manoeuvres during a 12 km drive. 
 
 <br><img width="2880" alt="Highway_Driving_Screenshot" src="https://github.com/blair-aitken/Forum8_Impaired_Driving/assets/131508862/ab17f415-d2ab-49b0-8b2e-44ab97e980ec"><br>
 
 ### Car-following task
-The car-following task commences with a vehicle appearing approximately 50 meters in front of the participants vehicle & participants are instructed to follow & maintain a safe but constant distance (headway) to it.
+The task begins with a vehicle materialising 50 meters ahead of the participant's vehicle. Participants are instructed to follow this vehicle, maintaining a safe and consistent distance (headway) from it.
 
 <br><img width="2880" alt="Car_Following_Screenshot" src="https://github.com/blair-aitken/Forum8_Impaired_Driving/assets/131508862/2097b757-2110-4585-a6ce-ba23ecef0179"><br>
 
-The lead vehicle accelerates or decelerates every 400 meters in a sinusoidal manner between 60 & 90 km/h, with single speed changes of no more than ± 10 km/h. Thus, participants must slow down in order to avoid collision, & to speed up in order to keep up with the leading car
+The lead vehicle varied its speed in a sinusoidal pattern every 400 meters, fluctuating between 60 and 90 km/h, with single speed changes no greater than ± 10 km/h. Consequently, participants are required to adjust their speed by decelerating to avoid collisions and accelerating to keep up with the lead vehicle. 
 
 ### Dual task
-During this task, letters ranging from A to F appear inside a green hexagon are presented on screen directly in front of the participant. As each letter appears, participants respond by quickly press the corresponding button on their dashboard & promptly return both hands to the steering wheel.
+In this task, participants are presented with letters from A to F enclosed within a green hexagon on screens positioned at the left and right of their peripheral vision.
 
 <br><img width="2880" alt="Dual_Task_Screenshot" src="https://github.com/blair-aitken/Forum8_Impaired_Driving/assets/131508862/6ad8de32-d64f-47a2-9284-e5ff6533c9bf"><br>
 
-A total of 50 trials are presented, with each letter appearing for one second every 10 seconds. Participants are also instructed to maintain a constant speed of 100 km/h in the left lane while driving. 
+When a letter appears, participants are required to respond quickly by pressing the corresponding button on their dashboard, followed by immediately returning both hands to the steering wheel. Participants completed a total of 50 trials in the dual task. Each letter appeared for one second, with an approximate interval of 10 seconds between each letter. Participants were instructed to maintain a constant speed of 100 km/h in the left lane while simultaneously performing the task.
 
 ### Outcomes
 Six primary driving endpoints are calculated using the `forum8_impaired_driving_analysis.R` script to assess simulated driving performance. The definitions of these outcomes are as follows:
@@ -56,7 +49,7 @@ Six primary driving endpoints are calculated using the `forum8_impaired_driving_
 *	**SDS**: The standard deviation of speed, measured in km/h, with an increase in SDS indicating an increase in speed variability.
 *	**Steering variability**: The standard deviation of the steering wheel angle values ranging from 0 (absolute center) to 1 (absolute left or right) with higher values represent increased movement of the steering wheel. 
 *	 **Lane deviations**: Scored as 1 each time the vehicle crossed from the driving lane into the left shoulder or right lane, excluding intentional overtaking manoeuvres.
-*	**Mean Headway**: Mean distance, measured in meters, maintained between the participant’s vehicle and the lead vehicle during the car-following task.
+*	**Mean headway**: Mean distance, measured in meters, maintained between the participant’s vehicle and the lead vehicle during the car-following task.
 *	**Headway variability**: The standard deviation of headway, measured in meters, with an increase in headway indicating a decreased ability to maintain a consistent distance between the lead vehicle.
 
 Each version includes variations in lead vehicle speed for the car-following task and stimuli order for the dual task. Additionally, the appearance of other vehicles, including make, model, and color, is randomized across each version to enhance novelty. Despite these variations, the drives remain otherwise identical to ensure comparable results across versions.
