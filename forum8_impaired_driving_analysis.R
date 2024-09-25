@@ -1,8 +1,8 @@
 #===================================================================================================
 #
-# Project title: Validation of a Novel Driving Simulation Task: A Pilot Study
+# Project title: Forum8 Multitasking Scenario
 #
-# Author(s): Mr Blair Aitken & Dr Tom Arkell
+# Author(s): Dr Blair Aitken
 #
 # Additional contributor(s): Dr Brook Shiferaw
 #              
@@ -22,9 +22,9 @@
 # Contact information: For questions or additional information about this script, 
 #                      please contact baitken@swin.edu.au.
 #
-# Last updated on May 9, 2023
+# Last updated on September 25, 2024
 #
-# More information: https://github.com/blairaitken/projectname
+# More information: https://github.com/blairaitken/forum8_multitasking_scenario
 
 # Notes
 #------
@@ -41,174 +41,106 @@
 #   
 #===================================================================================================
 
-#---------------
-# 1. DATA IMPORT
-#---------------
-
 # Load required packages
-#------------------------
 library(data.table)
 library(tidyverse)
-  
-# Get a list of .csv files in the folder
-#----------------------------------------
-drivefiles <- list.files(pattern = "*.csv")
 
-# Initialize an empty data.table
-#--------------------------------
+# Set the working directory and list .csv files including subfolders
+setwd("../Data")
+drivefiles <- list.files(pattern = "*.csv", recursive = TRUE)
+
+# Initialize an empty data table and read & merge .csv files
 driving_data <- data.table()
-
-# Read and merge .csv files
-#---------------------------
 for (f in drivefiles) {
-  ddt <- read_csv(f, col_names = T)
-  ddt$file <- f
-  driving_data <- rbind(driving_data, ddt, fill = T)
+  ddt <- read_csv(f, col_names = TRUE) %>%
+    mutate(file = f)
+  driving_data <- rbind(driving_data, ddt, fill = TRUE)
 }
+rm(ddt, f)  # Clean up intermediate variables
 
-# Remove unnecessary variables
-#------------------------------
-rm(ddt, f, drivefiles)
+#-------------------------------
+# Data Cleaning and Organization
+#-------------------------------
 
-# driving_data now contains the merged data from all .csv files in the data folder
-
-#------------------------------------------------------------------
-# 2. CLEAN & ORGANISE HIGHWAY DRIVING & DIVIDED ATTENTION TASK DATA
-#------------------------------------------------------------------
-
-# Extract id, visit, drive number & study code from file name
-#------------------------------------------------------------
-driving_data$id <- as.numeric(sub("^.*[a-zA-Z]+([0-9]{3}).*", "\\1", driving_data$file)) 
-driving_data$visit <- as.factor(sub("^.*[a-zA-Z]+[0-9]{3}_V([0-9]+).*", "\\1", driving_data$file)) 
-driving_data$drive_number <- as.factor(sub("^.*[a-zA-Z]+[0-9]{3}_V[0-9]+_T([0-9]+).*", "\\1", driving_data$file))
-
-# Covert all headings to lower case
-#----------------------------------
-colnames(driving_data) <- tolower(colnames(driving_data))
-
-# Create separate data sheet for headway analysis
-#-----------------------------------------------
-headway_data <- driving_data
-
-# Remove non-user vehicles
-#--------------------------
-driving_data <- subset(driving_data, driving_data$type == "uv")
-
-# Sort into kilometers
-#---------------------
-driving_data$distancealongroad <- as.integer(driving_data$distancealongroad/1)
-
-# Remove unwanted data
-#---------------------
-# Remove empty cells in 'offsetfromlanecenter' and 'lanenumber' columns
 driving_data <- driving_data %>%
-  drop_na(offsetfromlanecenter, lanenumber)
+  mutate(id = as.factor(sub("^.*MEDICO([0-9]{3}).*", "\\1", file)),
+         visit = as.factor(sub("^.*V([0-9]+).*", "\\1", file)),
+         drive = as.factor(sub("^.*T([0-9]+).*", "\\1", file))) %>%
+  rename_with(tolower, everything()) %>%
+  select(id, visit, drive, time, steering, type, speedinkmperhour, distancealongroad,
+         distancetofrontvehicle, offsetfromlanecenter, lanenumber, lightstate,
+         standarddeviationfromlanecenter, file)
 
-# Remove empty cells and data while driver is indicating and outside of lane
+# Data filtering and unit conversions
 driving_data <- driving_data %>%
-  filter((lightstate == "BrakeLight" | lightstate == "" | is.na(lightstate)) &
-           (lanenumber == 2))
-
-# Convert offset from lane centre into cms
-#-----------------------------------------
-driving_data$offsetfromlanecenter2 <- driving_data$offsetfromlanecenter*100
-
-# Convert negative 'offsetfromlanecenter' & steering values to positive values
-#-----------------------------------------------------------------------------
-driving_data$offsetfromlanecenter2 <- abs(driving_data$offsetfromlanecenter2)
-driving_data$steering <- abs(driving_data$steering)
+  filter(lanenumber == 2 &
+         type == "uv" &
+         (lightstate == "BrakeLight" | lightstate == "" | is.na(lightstate)) &
+         !(between(distancealongroad, 19500, 19850)) &    # Over-taking event 1
+         !(between(distancealongroad, 21750, 22150)) &    # Over-taking event 2
+         !(between(distancealongroad, 24000, 24250)) &    # Over-taking event 3
+         !(between(distancealongroad, 26250, 26500))) # Over-taking event 4
 
 # Sort into task
-#---------------
 driving_data$task = 0
 
-driving_data$task[driving_data$distancealongroad >= 4200 & driving_data$distancealongroad <= 13800 ] = "car_following"
+driving_data$task[driving_data$distancealongroad >= 3800 & driving_data$distancealongroad <= 13800 ] = "car_following" 
 driving_data$task[driving_data$distancealongroad >= 15500 & driving_data$distancealongroad <= 27500 ] = "highway_drive"
-driving_data$task[driving_data$distancealongroad >= 28000 & driving_data$distancealongroad <= 40000 ] = "choiceRT"
+driving_data$task[driving_data$distancealongroad >= 28000 & driving_data$distancealongroad <= 40000 ] = "dual_task"
 
-# Remove data outside of tasks
-#------------------------------
-driving_data <- driving_data[!(driving_data$task == 0), ]
+driving_data <- driving_data %>%
+  filter(task != 0) #Remove data outside of tasks
 
-#------------------------------------------------------
-# 3. CLEAN & ORGANISE HEADWAY DATA (CAR-FOLLOWING TASK)
-# -----------------------------------------------------
+# Add treatment schedule from randomisation
+treatment_randomisation <- list(
+  # Example treatment schedule
+  "001" = c("A", "E", "C", "D", "B"),
+  "002" = c("C", "D", "A", "B", "E"),
+  "003" = c("A", "C", "E", "B", "D"),
+  "004" = c("D", "C", "B", "E", "A"),
+  "005" = c("B", "E", "D", "C", "A"),
+  "006" = c("A", "E", "B", "C", "D"),
+  "007" = c("A", "D", "E", "B", "C"),
+  "008" = c("D", "A", "B", "E", "C"),
+  "010" = c("A", "B", "E", "D", "C"),
+  "011" = c("E", "A", "D", "C", "B"),
+  "012" = c("E", "D", "A", "B", "C"),
+  "013" = c("B", "D", "A", "C", "E")
+)
 
-# Sort into kilometers
-#---------------------
-headway_data$bin1 <- as.integer(headway_data$distancealongroad / 1)
+# Convert 'id' and 'visit' to factor before assignment to ensure indexing works
+driving_data[, `:=`(id = as.factor(id), visit = as.factor(visit))]
 
-# Sort into task
-#---------------
-headway_data$task <- 0
-headway_data$task[headway_data$bin1 >= 3800 & headway_data$bin1 <= 14000] <- 1
-
-# Remove data outside of tasks
-#-----------------------------
-headway_data <- subset(headway_data, headway_data$task == 1)
-
-# Order rows by time
-#-------------------
-headway_data <- headway_data[order(id, visit, drive_number, time), ]
-
-# Delete data when car is not following
-#--------------------------------------
-headway_data <- headway_data %>%
-  filter(!(stringr::str_detect(headway_data$type, "uv") & stringr::str_detect(lead(headway_data$type), "uv"))) 
-
-headway_data <- headway_data %>%
-  filter(!(stringr::str_detect(headway_data$type, "fv") & stringr::str_detect(lead(headway_data$type), "fv")))
-
-# Subtract user's distance along road from lead vehicle's distance along road
-#----------------------------------------------------------------------------
-headway_data$headway <- rep(headway_data$distancealongroad[seq(2, nrow(headway_data), by = 2)] - headway_data$distancealongroad[seq(1, nrow(headway_data), by = 2)], each = 2)
-
-# Remove lead vehicle's data
-#---------------------------
-headway_data <- subset(headway_data, headway_data$type == "uv")
-
-# Convert headway values to positive
-#------------------------------------
-headway_data$headway <- abs(headway_data$headway)
-
-# Remove headway under 5 meters
-#-------------------------------
-headway_data <- subset(headway_data, headway_data$headway >= 5)
-
-# Remove headway over 500
-#------------------------
-headway_data <- subset(headway_data, headway_data$headway <= 500)
-
-# Create task column in head_data dataframe
-#------------------------------------------
-headway_data$task <- rep("car_following", nrow(headway_data))
-
-#------------------
-# 4. SUMMARISE DATA
-# -----------------
-
-# Summarise data 
-#---------------
-driving_data_summary = subset(driving_data) %>%
-  group_by(id, visit, drive_number, task) %>%
-  summarise(SDLP = sd(offsetfromlanecenter2), SDS = sd(speedinkmperhour), average_speed = mean(speedinkmperhour), steering_variability = sd(steering))
-
-headway_data_summary = subset(headway_data) %>%
-  group_by(id, visit, drive_number, task) %>%
-  summarise(average_headway = mean(headway), SD_headway = sd(headway))
-
-driving_data_summary <- left_join(driving_data_summary, headway_data_summary, by = c("id", "visit", "drive_number", "task"))
+# Assign treatments to the driving_data based on id and visit
+driving_data[, treatment := sapply(seq_len(.N), function(i) {
+  # Check if the id exists in the list and if the visit number is within the range
+  if (id[i] %in% names(treatment_randomisation) && as.integer(visit[i]) <= length(treatment_randomisation[[id[i]]])) {
+    return(treatment_randomisation[[id[i]]][as.integer(visit[i])])
+  } else {
+    return(NA)  # Return NA if the id or visit number is out of range
+  }
+})]
 
 #---------------
-# 4. EXPORT DATA
-# --------------
+# Summarise Data
+#---------------
 
-# Write to CSV file
-#------------------
-write.csv(driving_data_sunmary,"driving_data_summary.csv", row.names = F)
+driving_data_summary <- driving_data %>%
+  group_by(id, treatment, drive, task) %>%
+  summarise(
+            SDLP = sd(offsetfromlanecenter, na.rm = TRUE),
+            SDS = sd(speedinkmperhour, na.rm = TRUE),
+            average_speed = mean(speedinkmperhour, na.rm = TRUE),
+            steering_variability = sd(steering, na.rm = TRUE),
+            headway = mean(distancetofrontvehicle, na.rm = TRUE),
+            headway_variability = sd(distancetofrontvehicle, na.rm = TRUE))
 
-write.csv(driving_data,"raw_driving_data.csv", row.names = F)
+#----------------------
+# Export Processed Data
+#----------------------
 
-write.csv(headway_data,"raw_headway_data.csv", row.names = F)
+write.csv(driving_data_summary, "driving_data_summary.csv", row.names = FALSE)
 
+#--------------
 # End of script
+#--------------
