@@ -98,7 +98,7 @@ driving_data$visit <- as.factor(sub("^your_regular_expression_here", "\\1", driv
 driving_data$drive_number <- as.factor(sub("^your_regular_expression_here", "\\1", driving_data$file))
 ```
 
-#### 2. Adding New Data Filtering Criteria
+### 2. Adding New Data Filtering Criteria
 Depending on your analysis, you may need to apply different filtering criteria to the data. For example, you could add additional filters or modify existing ones in the sections where data is being cleaned and organized.
 
 ```R
@@ -107,7 +107,7 @@ driving_data <- driving_data %>%
   filter(custom_column >= some_value)
   ```
   
-#### 3. Customising data export
+### 3. Customising data export
 The script exports the data in CSV format. You could modify the export section to output the data in a different format or save it to a specific location.
 
 ```R
