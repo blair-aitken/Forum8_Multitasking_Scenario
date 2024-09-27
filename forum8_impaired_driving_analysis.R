@@ -65,20 +65,20 @@ rm(ddt, f)  # Clean up intermediate variables
 driving_data <- driving_data %>%
   mutate(id = as.factor(sub("^.*MEDICO([0-9]{3}).*", "\\1", file)),
          visit = as.factor(sub("^.*V([0-9]+).*", "\\1", file)),
-         drive = as.factor(sub("^.*T([0-9]+).*", "\\1", file))) %>%
+       # drive = as.factor(sub("^.*T([0-9]+).*", "\\1", file))) %>% # Uncomment line to include multiple drives
   rename_with(tolower, everything()) %>%
-  select(id, visit, drive, time, steering, type, speedinkmperhour, distancealongroad,
+  select(id, visit, time, steering, type, speedinkmperhour, distancealongroad,
          distancetofrontvehicle, offsetfromlanecenter, lanenumber, lightstate,
-         standarddeviationfromlanecenter, file)
+         standarddeviationfromlanecenter, file) # Add "drive" column for multiple drives
 
 # Data filtering and unit conversions
 driving_data <- driving_data %>%
-  filter(lanenumber == 2 &
-         type == "uv" &
-         (lightstate == "BrakeLight" | lightstate == "" | is.na(lightstate)) &
-         !(between(distancealongroad, 19500, 19850)) &    # Over-taking event 1
-         !(between(distancealongroad, 21750, 22150)) &    # Over-taking event 2
-         !(between(distancealongroad, 24000, 24250)) &    # Over-taking event 3
+  filter(lanenumber == 2 & # Remove data from lanes 1 (left-shoulder), 3 (right driving lane) & 4 (right-shoulder)
+         type == "uv" & # Remove data from other vehicles in simulation
+         (lightstate == "BrakeLight" | lightstate == "" | is.na(lightstate)) & # Remove data when driver is indicating
+         !(between(distancealongroad, 19500, 19850)) & # Over-taking event 1
+         !(between(distancealongroad, 21750, 22150)) & # Over-taking event 2
+         !(between(distancealongroad, 24000, 24250)) & # Over-taking event 3
          !(between(distancealongroad, 26250, 26500))) # Over-taking event 4
 
 # Sort into task
@@ -89,7 +89,7 @@ driving_data$task[driving_data$distancealongroad >= 15500 & driving_data$distanc
 driving_data$task[driving_data$distancealongroad >= 28000 & driving_data$distancealongroad <= 40000 ] = "dual_task"
 
 driving_data <- driving_data %>%
-  filter(task != 0) #Remove data outside of tasks
+  filter(task != 0) # Remove data outside of tasks
 
 # Add treatment schedule from randomisation
 treatment_randomisation <- list(
@@ -126,20 +126,20 @@ driving_data[, treatment := sapply(seq_len(.N), function(i) {
 #---------------
 
 driving_data_summary <- driving_data %>%
-  group_by(id, treatment, drive, task) %>%
+  group_by(id, treatment, task) %>% # Add "drive" variable for multiple drives
   summarise(
-            SDLP = sd(offsetfromlanecenter, na.rm = TRUE),
-            SDS = sd(speedinkmperhour, na.rm = TRUE),
-            average_speed = mean(speedinkmperhour, na.rm = TRUE),
-            steering_variability = sd(steering, na.rm = TRUE),
-            headway = mean(distancetofrontvehicle, na.rm = TRUE),
-            headway_variability = sd(distancetofrontvehicle, na.rm = TRUE))
+            SDLP = sd(offsetfromlanecenter, na.rm = TRUE), # Standard deviation of lateral position
+            SDS = sd(speedinkmperhour, na.rm = TRUE), # Standard deviation of speed
+            average_speed = mean(speedinkmperhour, na.rm = TRUE), # Average speed
+            steering_variability = sd(steering, na.rm = TRUE), # Steering variability
+            average_headway = mean(distancetofrontvehicle, na.rm = TRUE), # Average headway
+            headway_variability = sd(distancetofrontvehicle, na.rm = TRUE)) # Headway variability
 
 #----------------------
 # Export Processed Data
 #----------------------
 
-write.csv(driving_data_summary, "driving_data_summary.csv", row.names = FALSE)
+write.csv(driving_data_summary, "driving_data_summary.csv", row.names = FALSE) # Exports cleaned data to csv file
 
 #--------------
 # End of script
